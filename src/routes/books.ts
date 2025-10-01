@@ -22,9 +22,10 @@ router.post('/', validateBookPayload, (req, res) => {
         id: uuidv4(),
         title: title.trim(),
         authorId,
-        year: typeof year === "number" ? : undefined,
+        year: typeof year === "number" ? year : undefined,
         summary: summary?.trim(),
-        createdAt: new Date().toISOString()
+        createdAt: new Date().toISOString(),
+        updatedAt: ""
     };
     books.push(newBook);
     res.status(201).json(newBook);
@@ -59,7 +60,9 @@ router.get("/", (req, res) => {
     }
     if (sort === "title") results.sort((a, b) => a.title.localeCompare(b.title));
     else if (sort === "year") results.sort((a, b) => (a.year || 0) - (b.year || 0));
-    else if (sort === "createdAt") results.sort((a,b) => new Date(b.createdAt).getTime() - new Date(a.createdAt).getTime());
+    else if (sort === "createdAt") results.sort((a, b) =>
+     new Date(b.createdAt ?? "").getTime() - new Date(a.createdAt).getTime());
+  
 
     // pagination
 
