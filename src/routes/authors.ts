@@ -19,7 +19,7 @@ router.post("/", validateAuthorPayload, (req, res) => {
   }
       
   const newAuthor: Author = {
-    id: uuidvd4(),
+    id: uuidv4(),
     name: name.trim(),
     biography: biography?.trim(),
     createdAt: new Date().toISOString()

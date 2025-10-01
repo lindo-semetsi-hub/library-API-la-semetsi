@@ -61,7 +61,7 @@ router.get("/", (req, res) => {
     if (sort === "title") results.sort((a, b) => a.title.localeCompare(b.title));
     else if (sort === "year") results.sort((a, b) => (a.year || 0) - (b.year || 0));
     else if (sort === "createdAt") results.sort((a, b) =>
-     new Date(b.createdAt ?? "").getTime() - new Date(a.createdAt).getTime());
+     new Date(b.createdAt ?? "").getTime() - new Date(a.createdAt ?? "").getTime());
   
 
     // pagination
