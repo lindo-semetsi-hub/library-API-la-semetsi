@@ -7,6 +7,7 @@ export interface Author {
 }
 
 export interface Book {
+    updatedAt: string;
     id: string;
     title: string;
     authorId: string;
