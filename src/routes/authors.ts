@@ -54,5 +54,31 @@ router.put("/:id", validateAuthorPayload, (req, res) => {
 
     const { name, biography } = req.body;
 
-    // check duplicate name
-})
+    // check duplicate name\
+
+    const conflict = authors.find(a => a.id !== author.id && a.name.trim().toLowerCase() === name.trim().toLowerCase());
+if (conflict) return res.status(409).json({error: "Anothe author with that name already exists."});
+
+    author.name = name.trim();
+    author.biography = biography?.trim();
+    author.updatedAt = new Date().toISOString();
+    res.json(author);
+});
+
+//DELETE/authors
+// delete author and prevent deletion in case author has books
+
+router.delete("/:id", (req, res) => {
+    const idx = authors.findIndex(a => a.id === req.params.id);
+
+    const authorId = req.params.id;
+    const hasBooks = books.some(b => b.authorId === authorId);
+    if (hasBooks) {
+        return res.status(400).json({ error: "cannot delete author with existing books. Delete or reassign books first"});
+    }
+
+    authors.splice(idx, 1);
+    res.status(204).send();
+});
+
+
